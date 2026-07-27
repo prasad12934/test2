@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mycompany</groupId>
+	<groupId>c7849e15-ddd4-4f1b-9522-4cb87febb3ac</groupId>
 	<artifactId>jenkinstest3</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
@@ -25,11 +25,32 @@
 				<version>3.2.0</version>
 			</plugin>
 			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
-				<extensions>true</extensions>
-			</plugin>
+    <groupId>org.mule.tools.maven</groupId>
+    <artifactId>mule-maven-plugin</artifactId>
+    <version>${mule.maven.plugin.version}</version>
+    <extensions>true</extensions>
+    <configuration>
+        <classifier>mule-application</classifier>
+        <cloudhub2Deployment>
+            <uri>https://anypoint.mulesoft.com</uri>
+            <provider>MC</provider>
+            <environment>Sandbox</environment>
+            <target>Cloudhub-US-East-2</target>
+            <muleVersion>4.12.1:4e</muleVersion>
+            <releaseChannel>EDGE</releaseChannel>
+            <javaVersion>17</javaVersion>
+
+            <!-- Connected App auth — replaces username/password -->
+            <connectedAppClientId>${connectedAppClientId}</connectedAppClientId>
+            <connectedAppClientSecret>${connectedAppClientSecret}</connectedAppClientSecret>
+            <connectedAppGrantType>client_credentials</connectedAppGrantType>
+
+            <applicationName>${applicationName}</applicationName>
+            <replicas>1</replicas>
+            <vCores>0.1</vCores>
+        </cloudhub2Deployment>
+    </configuration>
+</plugin>
 		</plugins>
 	</build>
 
@@ -80,5 +101,12 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
+<distributionManagement>
+		<repository>
+			<id>exchange</id>
+			<name>Corporate Repository</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/c7849e15-ddd4-4f1b-9522-4cb87febb3ac/maven</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 </project>
